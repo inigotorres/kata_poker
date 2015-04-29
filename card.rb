@@ -11,10 +11,16 @@ class Card
   end
 
   def <=> another_card
+    return nil if another_card.class != Card
+
     result = SMALLER if worth < another_card.worth
     result = LARGER if worth > another_card.worth
     result = EQUAL if worth == another_card.worth
     result
+  end
+
+  def to_s
+    @description
   end
 
   # private eliminated because need to invoke another_card method
