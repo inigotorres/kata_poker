@@ -25,5 +25,11 @@ describe "A croupier in the casino " do
       player_two_hand = "2H 3D 5S 9C KD"
       expect(Croupier.check(player_one_hand,player_two_hand)).to eq(expected)
     end
+
+    it "identifies a tie" do
+      expected = "There is a tie"
+      a_hand = "3H 4D 5S 9C KD"
+      expect(Croupier.check(a_hand,a_hand)).to eq(expected)
+    end
   end
 end

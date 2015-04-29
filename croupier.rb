@@ -2,14 +2,15 @@ class Croupier
   RANK = "Highest card"
   SEPARATOR = ": "
   FACE_VALUES = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"]
-  WINSWITH = " wins with " + RANK + SEPARATOR
   INDEX_OFFSET = -1
+  WINSWITH = " wins with " + RANK + SEPARATOR
+  TIE = "There is a tie"
 
   def self.check hand_one, hand_two
     player_one_sorted_hand = sort_hand(hand_one)
     player_two_sorted_hand = sort_hand(hand_two)
-    winner = ""
 
+    winner = TIE
     (1..5).each do |position|
       player_one_next_highest_card = player_one_sorted_hand[position+INDEX_OFFSET] 
       player_two_next_highest_card = player_two_sorted_hand[position+INDEX_OFFSET] 
