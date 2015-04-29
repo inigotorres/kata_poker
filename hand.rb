@@ -5,6 +5,7 @@ class Hand
   SMALLER = -1
   INDEX_OFFSET = -1
 
+  @winner_of_comparison = nil
   attr_reader :hand_description
 
   def initialize hand_description
@@ -26,8 +27,10 @@ class Hand
       second_hand_next_highest_card = second_hand_sorted[position+INDEX_OFFSET] 
 
       next if (first_hand_next_highest_card.worth == second_hand_next_highest_card.worth)
-      comparison = LARGER if (first_hand_next_highest_card.worth > second_hand_next_highest_card.worth)
+      comparison = LARGER 
+      @winner_of_comparison = first_hand_next_highest_card
       comparison = SMALLER if (first_hand_next_highest_card.worth < second_hand_next_highest_card.worth)
+      @winner_of_comparison = second_hand_next_highest_card if (first_hand_next_highest_card.worth < second_hand_next_highest_card.worth)
       break
     end
     comparison
@@ -43,5 +46,9 @@ class Hand
       end
     end
     sorted_cards
+  end
+ 
+  def winner_card_of_comparison 
+    @winner_of_comparison.to_s
   end
 end

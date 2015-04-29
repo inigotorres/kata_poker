@@ -1,46 +1,25 @@
 class Croupier
   RANK = "Highest card"
   SEPARATOR = ": "
-  FACE_VALUES = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"]
-  INDEX_OFFSET = -1
   WINSWITH = " wins with " + RANK + SEPARATOR
   TIE = "There is a tie"
 
-  def self.check hand_one, hand_two
-    player_one_sorted_hand = sort_hand(hand_one)
-    player_two_sorted_hand = sort_hand(hand_two)
+  def self.check hand_one_description, hand_two_description
+    player_one_hand = Hand.new(hand_one_description)
+    player_two_hand = Hand.new(hand_two_description)
+    
+    comparison = player_one_hand <=> player_two_hand
+    winner = "Player one"
+    winner = "Player two" if comparison == -1
+    winner_card = player_one_hand.winner_card_of_comparison 
 
-    winner = TIE
-    (1..5).each do |position|
-      player_one_next_highest_card = player_one_sorted_hand[position+INDEX_OFFSET] 
-      player_two_next_highest_card = player_two_sorted_hand[position+INDEX_OFFSET] 
-      
-      next if player_one_next_highest_card.worth == player_two_next_highest_card.worth
-      winner = "Player one" + WINSWITH + player_one_next_highest_card.to_s
-      winner = "Player two" + WINSWITH + player_two_next_highest_card.to_s if (player_one_next_highest_card.worth < player_two_next_highest_card.worth)
-      break
-    end
-    winner
+    result = winner + WINSWITH + winner_card 
+    result = TIE if comparison == 0
+    result
   end
 
-  def self.check_hand a_hand
-    RANK + SEPARATOR + highest_card(a_hand).to_s
-  end
-
-  def self.highest_card a_hand
-    sorted_cards = sort_hand a_hand
-    sorted_cards.first 
-  end
-
-  def self.sort_hand a_hand
-    cards_descriptions = a_hand.split(" ")
-    cards = cards_descriptions.map {|description| Card.new(description)}
-    sorted_cards = []
-    FACE_VALUES.reverse.each do |value|
-      cards.each do |card|
-        sorted_cards << card if card.value == value
-      end
-    end
-    sorted_cards
+  def self.check_hand a_hand_description
+    a_hand = Hand.new(a_hand_description)
+    RANK + SEPARATOR + a_hand.highest_card.to_s
   end
 end
